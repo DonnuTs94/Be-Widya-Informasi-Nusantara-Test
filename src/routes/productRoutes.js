@@ -4,10 +4,17 @@ import validateToken from "../middlewares/authMiddleware.js"
 import productController from "../controllers/productController.js"
 import { FILE_PREFIX, FILE_TYPES, PATH, SIZE_3MB } from "../constants/upload.js"
 import { validateCreateProduct } from "../middlewares/productValidationMiddleware.js"
+import { verifyOwnerProduct } from "../middlewares/productMiddleware.js"
 
 const router = Router()
 
 router.get("/", validateToken, productController.getAllProduct)
+router.get(
+  "/:id",
+  validateToken,
+  verifyOwnerProduct,
+  productController.getDetailProduct
+)
 
 router.post(
   "/",

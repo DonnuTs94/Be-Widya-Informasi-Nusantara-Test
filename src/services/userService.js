@@ -26,6 +26,7 @@ const findUserById = async (id) => {
       id,
     },
     select: {
+      id: true,
       email: true,
       firstName: true,
       lastName: true,

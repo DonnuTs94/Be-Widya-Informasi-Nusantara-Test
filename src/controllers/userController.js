@@ -79,7 +79,7 @@ const userController = {
       const userData = await findUserById(req.user.id)
 
       return res.status(200).json({
-        status: "true",
+        status: true,
         message: "Success get user profile",
         data: userData,
       })

@@ -48,6 +48,7 @@ const findAllProduct = async ({ pageSize, offset, name, category, userId }) => {
       isDelete: false,
     },
     select: {
+      id: true,
       name: true,
       price: true,
       category: true,
@@ -88,4 +89,38 @@ const countProductData = async ({ userId, name, category }) => {
   })
 }
 
-export { createProductData, findAllProduct, countProductData }
+const detailProduct = async ({ productId }) => {
+  return await prisma.product.findFirst({
+    where: {
+      id: productId,
+    },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      category: true,
+      quantity: true,
+      description: true,
+      image: true,
+    },
+  })
+}
+
+const isProductOwner = async ({ productId }) => {
+  return await prisma.product.findFirst({
+    where: {
+      id: productId,
+    },
+    select: {
+      userId: true,
+    },
+  })
+}
+
+export {
+  createProductData,
+  findAllProduct,
+  countProductData,
+  detailProduct,
+  isProductOwner,
+}

@@ -1,6 +1,7 @@
 import {
   countProductData,
   createProductData,
+  detailProduct,
   findAllProduct,
 } from "../services/productService.js"
 
@@ -23,7 +24,8 @@ const productController = {
       })
 
       return res.status(201).json({
-        message: "Successfully create product",
+        success: true,
+        message: "Success create product",
         data: productData,
       })
     } catch (err) {
@@ -70,6 +72,25 @@ const productController = {
           start: startItem,
           end: endItem,
         },
+        data: productData,
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. please try again later.",
+        error: err.message,
+      })
+    }
+  },
+
+  getDetailProduct: async (req, res) => {
+    try {
+      const { id } = req.params
+      const productData = await detailProduct({ productId: id })
+
+      return res.status(400).json({
+        success: true,
+        message: "Success get detail product",
         data: productData,
       })
     } catch (err) {
