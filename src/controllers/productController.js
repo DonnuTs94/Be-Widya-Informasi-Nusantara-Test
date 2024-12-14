@@ -42,7 +42,6 @@ const productController = {
       const pageSize = 5
       const offset = (page - 1) * pageSize
 
-      console.log(offset)
       const productData = await findAllProduct({
         userId: req.user.id,
         name,
