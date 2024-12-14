@@ -1,4 +1,8 @@
-import { createProductData } from "../services/productService.js"
+import {
+  countProductData,
+  createProductData,
+  findAllProduct,
+} from "../services/productService.js"
 
 const productController = {
   createProduct: async (req, res) => {
@@ -20,6 +24,53 @@ const productController = {
 
       return res.status(201).json({
         message: "Successfully create product",
+        data: productData,
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. please try again later.",
+        error: err.message,
+      })
+    }
+  },
+
+  getAllProduct: async (req, res) => {
+    try {
+      const { name, category, page } = req.query
+
+      const pageSize = 5
+      const offset = (page - 1) * pageSize
+
+      console.log(offset)
+      const productData = await findAllProduct({
+        userId: req.user.id,
+        name,
+        category,
+        offset,
+        pageSize,
+      })
+
+      const totalCountProduct = await countProductData({
+        userId: req.user.id,
+        name,
+        category,
+      })
+
+      const startItem = offset + 1
+      const endItem = Math.min(offset + pageSize, totalCountProduct)
+
+      return res.status(200).json({
+        success: true,
+        message: "Success get all product data.",
+        currentPage: page,
+        pageSize,
+        totalItems: totalCountProduct,
+        totalPages: Math.ceil(totalCountProduct / pageSize),
+        range: {
+          start: startItem,
+          end: endItem,
+        },
         data: productData,
       })
     } catch (err) {

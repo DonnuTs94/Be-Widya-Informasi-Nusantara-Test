@@ -7,6 +7,8 @@ import { validateCreateProduct } from "../middlewares/productValidationMiddlewar
 
 const router = Router()
 
+router.get("/", validateToken, productController.getAllProduct)
+
 router.post(
   "/",
   validateFileUpload({
@@ -19,4 +21,5 @@ router.post(
   validateToken,
   productController.createProduct
 )
+
 export default router
