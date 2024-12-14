@@ -34,6 +34,7 @@ model Product {
   quantity    Int
   description String     @db.Text
   image       String
+  isDelete    Boolean    @default(false)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
