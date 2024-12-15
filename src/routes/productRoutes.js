@@ -3,7 +3,10 @@ import { validateFileUpload } from "../middlewares/uploaderMiddleware.js"
 import validateToken from "../middlewares/authMiddleware.js"
 import productController from "../controllers/productController.js"
 import { FILE_PREFIX, FILE_TYPES, PATH, SIZE_3MB } from "../constants/upload.js"
-import { validateCreateProduct } from "../middlewares/productValidationMiddleware.js"
+import {
+  validateCreateProduct,
+  validateUpdateProduct,
+} from "../middlewares/productValidationMiddleware.js"
 import { verifyOwnerProduct } from "../middlewares/productMiddleware.js"
 
 const router = Router()
@@ -27,6 +30,14 @@ router.post(
   validateCreateProduct,
   validateToken,
   productController.createProduct
+)
+
+router.put(
+  "/:id",
+  validateUpdateProduct,
+  validateToken,
+  verifyOwnerProduct,
+  productController.updateProductData
 )
 
 export default router

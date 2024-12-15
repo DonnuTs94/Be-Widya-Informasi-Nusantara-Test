@@ -117,10 +117,41 @@ const isProductOwner = async ({ productId }) => {
   })
 }
 
+const updateProductDetail = async ({
+  productId,
+  price,
+  quantity,
+  description,
+}) => {
+  return await prisma.product.update({
+    where: {
+      id: productId,
+    },
+    data: {
+      ...(price !== undefined && { price }),
+      ...(quantity !== undefined && { quantity }),
+      ...(description !== undefined && { description }),
+    },
+  })
+}
+
+const updateIsDeleteProduct = async ({ id }) => {
+  return await prisma.product.update({
+    where: {
+      id,
+    },
+    data: {
+      isDelete: true,
+    },
+  })
+}
+
 export {
   createProductData,
   findAllProduct,
   countProductData,
   detailProduct,
   isProductOwner,
+  updateProductDetail,
+  updateIsDeleteProduct,
 }

@@ -3,6 +3,8 @@ import {
   createProductData,
   detailProduct,
   findAllProduct,
+  updateIsDeleteProduct,
+  updateProductDetail,
 } from "../services/productService.js"
 
 const productController = {
@@ -25,7 +27,7 @@ const productController = {
 
       return res.status(201).json({
         success: true,
-        message: "Success create product",
+        message: "Success create product.",
         data: productData,
       })
     } catch (err) {
@@ -90,8 +92,54 @@ const productController = {
 
       return res.status(400).json({
         success: true,
-        message: "Success get detail product",
+        message: "Success get detail product.",
         data: productData,
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. please try again later.",
+        error: err.message,
+      })
+    }
+  },
+
+  updateProductData: async (req, res) => {
+    try {
+      const { id } = req.params
+      const { price, description, quantity } = req.body
+
+      await updateProductDetail({
+        productId: id,
+        price,
+        description,
+        quantity,
+      })
+
+      return res.status(200).json({
+        success: true,
+        message: "Success update product data.",
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. please try again later.",
+        error: err.message,
+      })
+    }
+  },
+
+  softDelete: async (req, res) => {
+    try {
+      const { id } = req.params
+
+      await updateIsDeleteProduct({
+        id,
+      })
+
+      return res.status(200).json({
+        success: true,
+        message: "Success delete product.",
       })
     } catch (err) {
       res.status(500).json({

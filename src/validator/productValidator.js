@@ -6,8 +6,14 @@ const createProductSchema = Joi.object({
     .valid("PRODUCT_A", "PRODUCT_B", "PRODUCT_C", "PRODUCT_D")
     .required(),
   price: Joi.number().positive().min(1).required(),
-  quantity: Joi.number().integer().min(1).required(),
+  quantity: Joi.number().integer().min(0).required(),
   description: Joi.string().max(500).required(),
 })
 
-export { createProductSchema }
+const updateProductSchema = Joi.object({
+  quantity: Joi.number().integer().min(0).optional(),
+  price: Joi.number().positive().optional(),
+  description: Joi.string().max(500).optional(),
+})
+
+export { createProductSchema, updateProductSchema }
