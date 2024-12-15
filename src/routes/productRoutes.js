@@ -40,4 +40,24 @@ router.put(
   productController.updateProductData
 )
 
+router.put(
+  "/:id/delete",
+  validateToken,
+  verifyOwnerProduct,
+  productController.softDelete
+)
+
+router.put(
+  "/:id/image",
+  validateFileUpload({
+    path: PATH,
+    fileTypes: FILE_TYPES,
+    filePrefix: FILE_PREFIX,
+    imgSize: SIZE_3MB,
+  }),
+  validateToken,
+  verifyOwnerProduct,
+  productController.updateImage
+)
+
 export default router

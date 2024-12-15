@@ -7,10 +7,10 @@ const verifyOwnerProduct = async (req, res, next) => {
     const user = req.user
     const product = await isProductOwner({ productId: id })
 
-    if (!product) {
+    if (!product || product.isDelete === true) {
       return res.status(404).json({
         status: false,
-        message: "Product not found",
+        message: "Product not found or has been delete",
       })
     }
 

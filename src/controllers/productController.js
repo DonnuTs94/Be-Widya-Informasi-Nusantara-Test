@@ -5,6 +5,7 @@ import {
   findAllProduct,
   updateIsDeleteProduct,
   updateProductDetail,
+  updateProductImage,
 } from "../services/productService.js"
 
 const productController = {
@@ -90,7 +91,7 @@ const productController = {
       const { id } = req.params
       const productData = await detailProduct({ productId: id })
 
-      return res.status(400).json({
+      return res.status(200).json({
         success: true,
         message: "Success get detail product.",
         data: productData,
@@ -140,6 +141,36 @@ const productController = {
       return res.status(200).json({
         success: true,
         message: "Success delete product.",
+      })
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong. please try again later.",
+        error: err.message,
+      })
+    }
+  },
+
+  updateImage: async (req, res) => {
+    try {
+      const { id } = req.params
+      const file = req.file
+
+      if (!file) {
+        return res.status(400).json({
+          success: false,
+          message: "No file uploaded.",
+        })
+      }
+
+      await updateProductImage({
+        id,
+        newImage: file.filename,
+      })
+
+      return res.status(200).json({
+        success: true,
+        message: "Success update product image.",
       })
     } catch (err) {
       res.status(500).json({

@@ -1,4 +1,6 @@
 import { prisma } from "../config/prisma.js"
+import { PATH } from "../constants/upload.js"
+import fs from "fs"
 
 const createProductData = async ({
   name,
@@ -113,6 +115,7 @@ const isProductOwner = async ({ productId }) => {
     },
     select: {
       userId: true,
+      isDelete: true,
     },
   })
 }
@@ -146,6 +149,32 @@ const updateIsDeleteProduct = async ({ id }) => {
   })
 }
 
+const updateProductImage = async ({ id, newImage }) => {
+  const product = await prisma.product.findFirst({
+    where: {
+      id,
+    },
+    select: {
+      image: true,
+    },
+  })
+
+  const currentImagePath = `${PATH}/` + product.image
+
+  if (fs.existsSync(currentImagePath)) {
+    fs.unlinkSync(currentImagePath)
+  }
+
+  return await prisma.product.update({
+    where: {
+      id,
+    },
+    data: {
+      image: newImage,
+    },
+  })
+}
+
 export {
   createProductData,
   findAllProduct,
@@ -154,4 +183,5 @@ export {
   isProductOwner,
   updateProductDetail,
   updateIsDeleteProduct,
+  updateProductImage,
 }
