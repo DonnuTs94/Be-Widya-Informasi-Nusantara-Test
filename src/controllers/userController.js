@@ -1,4 +1,5 @@
 import { signToken } from "../config/jwt.js"
+import { userMapping } from "../constants/user.js"
 import {
   createUser,
   findUserByEmail,
@@ -78,10 +79,15 @@ const userController = {
     try {
       const userData = await findUserById(req.user.id)
 
+      const mappedUserGender = {
+        ...userData,
+        gender: userMapping[userData.gender] || userData.gender,
+      }
+
       return res.status(200).json({
         status: true,
         message: "Success get user profile",
-        data: userData,
+        data: mappedUserGender,
       })
     } catch (err) {
       res.status(500).json({

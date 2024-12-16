@@ -1,8 +1,11 @@
 import express from "express"
 import cors from "cors"
 import mainRoutes from "./src/mainRoutes.js"
+import dotenv from "dotenv"
 
-const PORT = 8000
+dotenv.config()
+
+const PORT = process.env.PORT || 8000
 
 const app = express()
 app.use(cors())

@@ -48,7 +48,6 @@ const productController = {
       const pageSize = 8
       const offset = (page - 1) * pageSize
 
-      // Fetch product data from the database
       const productData = await findAllProduct({
         userId: req.user.id,
         name,
