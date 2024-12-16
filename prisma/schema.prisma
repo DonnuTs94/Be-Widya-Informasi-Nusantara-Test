@@ -50,8 +50,9 @@ enum Gender {
 }
 
 enum Categories {
-  PRODUCT_A @map("product a")
-  PRODUCT_B @map("product b")
-  PRODUCT_C @map("product c")
-  PRODUCT_D @map("product d")
+  TSHIRTS     @map("t-shirts")
+  JEANS       @map("jeans")
+  JACKETS     @map("jackets")
+  SHOES       @map("shoes")
+  ACCESSORIES @map("accessories")
 }

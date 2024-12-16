@@ -1,3 +1,4 @@
+import { categoryMapping } from "../constants/category.js"
 import {
   countProductData,
   createProductData,
@@ -19,8 +20,8 @@ const productController = {
       const productData = await createProductData({
         name,
         category,
-        price,
-        quantity: Number(quantity),
+        price: parseInt(price),
+        quantity: parseInt(quantity),
         description,
         image: file.filename,
         userId: user.id,
@@ -44,9 +45,10 @@ const productController = {
     try {
       const { name, category, page } = req.query
 
-      const pageSize = 5
+      const pageSize = 8
       const offset = (page - 1) * pageSize
 
+      // Fetch product data from the database
       const productData = await findAllProduct({
         userId: req.user.id,
         name,
@@ -54,6 +56,11 @@ const productController = {
         offset,
         pageSize,
       })
+
+      const mappedProductData = productData.map((product) => ({
+        ...product,
+        category: categoryMapping[product.category] || product.category,
+      }))
 
       const totalCountProduct = await countProductData({
         userId: req.user.id,
@@ -75,7 +82,7 @@ const productController = {
           start: startItem,
           end: endItem,
         },
-        data: productData,
+        data: mappedProductData,
       })
     } catch (err) {
       res.status(500).json({

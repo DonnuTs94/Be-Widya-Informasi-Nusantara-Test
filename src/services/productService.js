@@ -60,7 +60,7 @@ const findAllProduct = async ({ pageSize, offset, name, category, userId }) => {
       createdAt: true,
     },
     orderBy: {
-      name: "asc",
+      createdAt: "desc",
     },
   })
 }
